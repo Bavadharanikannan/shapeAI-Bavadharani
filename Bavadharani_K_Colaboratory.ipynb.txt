@@ -1,0 +1,178 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Bavadharani.K - Colaboratory",
+      "provenance": [],
+      "collapsed_sections": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "FfC5Cr7SS2tZ"
+      },
+      "source": [
+        " \n",
+        "from keras.datasets import mnist\n",
+        " \n",
+        "data = mnist.load_data()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "it2ewiprS6uX"
+      },
+      "source": [
+        " Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.noz 11493376/11490434 [==============================] - 0s 0us/step"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "KFMyYSDfU50X"
+      },
+      "source": [
+        " ((x_train, y_train) , (x_test, y_test)) = data"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2YA_3pgMUoaP"
+      },
+      "source": [
+        "x_train = x_train.reshape((x_train.shape[0],28*28)).astype('float32')\n",
+        "x_test = x_test.reshape((x_test.shape[0],28*28))."
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "a86uxxlJVUrw"
+      },
+      "source": [
+        "x_train = x_train / 255\n",
+        "x_test = x_test / 255"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "A8jomMyIVcbE"
+      },
+      "source": [
+        "from keras.utils import np_utils\n",
+        " \n",
+        "print(y_test.shape)\n",
+        " \n",
+        "y_train = np_utils.to_categorical(y_train)\n",
+        "y_test = np_utils.to_categorical(y_test)\n",
+        " \n",
+        "num_classes = y_test.shape[1]\n",
+        "print(y_test.shape)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "M8kqp5lrVnvZ"
+      },
+      "source": [
+        "(10000,) \n",
+        "(10000,10)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "VIXXMF3NV8UI"
+      },
+      "source": [
+        "from keras.models import sequential\n",
+        "from keras.layers import Dense"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "yuLh8TS7WC-6"
+      },
+      "source": [
+        "models = sequential()\n",
+        "models.add(Dense(32, input_dim = 28*28,activation='relu'))\n",
+        "models.add(Dense(64, activation='relu'))\n",
+        "models.add(Dense(10, activation='softmax'))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9g424mAEWKB7"
+      },
+      "source": [
+        "models.compile(loss='categorical_crossentropy', optimizer='adam' , metrics=['accuracy'])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sPCC_A__WSdq"
+      },
+      "source": [
+        "models.summary()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "1aMMLDz1WyWr"
+      },
+      "source": [
+        "models.fit(x_train,y_train,epochs=10,batch_size=100)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "WDEdMAVcW1NK"
+      },
+      "source": [
+        "scores = models.evaluate(x_test,y_test)\n",
+        "print(scorces)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
